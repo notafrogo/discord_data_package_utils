@@ -46,16 +46,15 @@ Follow the steps outlined in the `discord_data_package_utils/messages/` section:
 Run the scripts in the `discord_data_package_utils/account/` directory to extract and analyze account-related information.
 
 ```bash
-python account_details.py
-python activity_log.py
+python3 discord_data_package_utils/account/emoji_frecency.py
 ```
 
 ### Step 3: Analyze Data
 Run the scripts in the `discord_data_package_utils/analytics/` directory to generate insights from the processed data.
 
 ```bash
-python message_statistics.py
-python channel_activity.py
+python3 discord_data_package_utils/analytics/age_and_gender.py
+python3 discord_data_package_utils/analytics/search_analytics.py
 ```
 
 ## Notes
