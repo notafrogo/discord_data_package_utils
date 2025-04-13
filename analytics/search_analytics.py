@@ -1,7 +1,7 @@
 import json
 
 def search_in_large_json(file_path, search_text):
-    buffer_size = 1024 * 1024  # Read in chunks of 1 MB
+    buffer_size = 1024 * 1024
     result = []
     
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -14,7 +14,6 @@ def search_in_large_json(file_path, search_text):
     
     return result
 
-# Example usage
 file_path = "activity/analytics/events-2025-00000-of-00001.json"
 search_text = "predicted_age"
 matches = search_in_large_json(file_path, search_text)

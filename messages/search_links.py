@@ -7,7 +7,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from urllib.parse import urlparse
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def extract_first_url(text):
@@ -20,7 +19,7 @@ def extract_first_url(text):
     Returns:
         str or None: The first URL found, or None if no URL is present.
     """
-    url_pattern = r'(https?://[^\s]+)'  # Regex pattern to match URLs
+    url_pattern = r'(https?://[^\s]+)'
     match = re.search(url_pattern, text)
     return match.group(0) if match else None
 
@@ -117,12 +116,10 @@ def check_links_in_csv(csv_file_path, file_dir, domain_dir):
     os.makedirs(file_dir, exist_ok=True)
     os.makedirs(domain_dir, exist_ok=True)
 
-    # Simulate a real device by adding headers
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
 
-    # Extract all URLs from the CSV file
     urls = []
     with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
         reader = csv.reader(csv_file)
@@ -130,12 +127,11 @@ def check_links_in_csv(csv_file_path, file_dir, domain_dir):
             for cell in row:
                 url = extract_first_url(cell)
                 if url:
-                    urls.append((url, cell))  # Include the cell for date extraction
+                    urls.append((url, cell))
 
     total_urls = len(urls)
     logging.info(f"Found {total_urls} URLs to check.")
 
-    # Use multithreading to check URLs
     with ThreadPoolExecutor() as executor:
         future_to_url = {
             executor.submit(
@@ -143,15 +139,13 @@ def check_links_in_csv(csv_file_path, file_dir, domain_dir):
             ): url for url, _ in urls
         }
         for i, future in enumerate(as_completed(future_to_url), start=1):
-            future.result()  # Process the result
-            # Log progress percentage
+            future.result()
             progress = (i / total_urls) * 100
             logging.info(f"Progress: {progress:.2f}%")
 
     logging.info("Finished processing the CSV file.")
 
 if __name__ == "__main__":
-    # Replace these with the paths to your CSV file and output directories
     csv_file_path = "messages.csv"
     file_dir = "files"
     domain_dir = "domains"
