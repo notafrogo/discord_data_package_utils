@@ -1,2 +1,4 @@
 */.DS_STORE
 messages/messages.csv
+.env
+.DS_Store
